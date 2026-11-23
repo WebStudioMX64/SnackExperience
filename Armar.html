@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Arma tu paquete — The Snack Experience</title>
+<title>Configura tu barra — The Snack Experience</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,500&family=Alex+Brush&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -252,6 +252,79 @@
     font-family:'Playfair Display',serif; font-style:italic; font-size:.85rem; color:var(--cream);
   }
 </style>
+<style>
+  .wrap-narrow{ max-width:860px; margin:0 auto; }
+  .card{ background:var(--black-2); border:1px solid var(--line); border-radius:2px; padding:24px; margin-bottom:22px; }
+  .card h3{ font-size:1.35rem; margin-bottom:4px; }
+  .card .sub{ color:var(--cream-dim); font-size:.86rem; margin:0 0 18px; }
+  .step-n{ color:var(--gold); font-size:.74rem; letter-spacing:.14em; margin-bottom:6px; }
+  .field-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .field{ display:flex; flex-direction:column; gap:6px; }
+  .field.full{ grid-column:1/-1; }
+  .field label{ font-size:.74rem; letter-spacing:.06em; color:var(--gold); }
+  .field input{
+    background:var(--black); border:1px solid var(--line); color:var(--cream); padding:11px 12px;
+    font:inherit; font-size:.95rem; border-radius:2px; color-scheme:dark; width:100%;
+  }
+  .field input:focus, .other-in:focus, .qty-in:focus{ outline:none; border-color:var(--gold); }
+  @media (max-width:600px){ .field-grid{ grid-template-columns:1fr; } }
+  .choice-list.two{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  @media (max-width:600px){ .choice-list.two{ grid-template-columns:1fr; } }
+  .other-in, .qty-in{
+    background:var(--black); border:1px solid var(--line); color:var(--cream); padding:9px 12px;
+    font:inherit; font-size:.88rem; border-radius:2px; width:100%; margin-top:10px; color-scheme:dark;
+  }
+  .qty-row{ display:flex; align-items:center; gap:12px; margin-top:10px; }
+  .qty-row label{ font-size:.78rem; color:var(--cream-dim); white-space:nowrap; }
+  .qty-row .qty-in{ margin-top:0; max-width:120px; }
+  .pay-info{ margin-top:18px; border-top:1px solid var(--line); padding-top:14px; font-size:.9rem; color:var(--cream-dim); line-height:1.9; }
+  .pay-info b{ color:var(--gold-light); font-weight:500; }
+  .actions{ display:flex; gap:12px; flex-wrap:wrap; margin-top:18px; }
+  #msg{ margin-top:12px; font-size:.85rem; color:var(--gold-light); min-height:1.2em; }
+  .hoja-note{ color:var(--cream-dim); font-size:.84rem; margin:0 0 14px; }
+
+  /* ---------- La hoja (ficha) ---------- */
+  .ficha-wrap{ position:relative; overflow:hidden; border:1px solid var(--line); background:#FBF1E3; }
+  .ficha{ width:820px; transform-origin:top left; background:#FBF1E3; color:#1b140b; font-family:'Jost',sans-serif; font-weight:400; }
+  .ficha *{ box-sizing:border-box; }
+  .f-top{ background:#0E0B08; padding:30px 38px 26px; display:flex; align-items:center; gap:30px; border-bottom:4px solid #C6A15B; }
+  .f-logo{ width:122px; height:122px; border-radius:50%; flex-shrink:0; display:block; }
+  .f-ttl{ flex:1; text-align:center; }
+  .f-l1{ font-family:'Playfair Display',serif; font-weight:800; font-size:38px; color:#F3EDE1; letter-spacing:.02em; line-height:1; }
+  .f-l2{ font-family:'Playfair Display',serif; font-weight:900; font-size:60px; color:#C6A15B; line-height:1.05; margin-top:4px; }
+  .f-l2.long{ font-size:34px; line-height:1.15; }
+  .f-sub{ font-family:'Alex Brush',cursive; font-size:42px; color:#F3EDE1; margin-top:8px; line-height:1; }
+  .f-tag{ font-size:12px; letter-spacing:.2em; color:#E7CE93; margin-top:10px; }
+  .f-body{ padding:26px 38px 6px; }
+  .f-sec{ margin-bottom:22px; }
+  .f-head{ display:flex; align-items:stretch; }
+  .f-pill{ background:#0E0B08; color:#F3EDE1; font-weight:600; letter-spacing:.14em; font-size:15px; padding:9px 22px; border-radius:10px; position:relative; z-index:1; white-space:nowrap; }
+  .f-pill b{ color:#E7CE93; font-size:20px; font-weight:700; }
+  .f-hint{ flex:1; background:linear-gradient(90deg,#D9B77A,#C6A15B); color:#1b140b; font-size:13px; padding:9px 18px 9px 28px; margin-left:-12px; border-radius:0 10px 10px 0; text-align:right; display:flex; align-items:center; justify-content:flex-end; }
+  .f-box{ border:1px solid #D9B77A; background:#FFF8EC; border-radius:14px; padding:16px 22px; margin-top:8px; }
+  .f-row{ display:flex; gap:10px; align-items:flex-end; padding:5px 0; font-size:16px; }
+  .f-lab{ color:#3a2d1a; white-space:nowrap; }
+  .f-val{ flex:1; border-bottom:1px solid #C9A96A; font-weight:600; min-height:24px; color:#0E0B08; padding-left:4px; }
+  .f-inc{ list-style:none; margin:0; padding:0; columns:2; column-gap:30px; font-size:15px; line-height:1.4; }
+  .f-inc li{ break-inside:avoid; padding:4px 0 4px 18px; position:relative; }
+  .f-inc li::before{ content:"♦"; position:absolute; left:0; color:#C6A15B; font-size:11px; top:7px; }
+  .f-grid{ display:grid; grid-template-columns:1fr 1fr; gap:8px 26px; font-size:16px; }
+  .f-opt{ display:flex; align-items:center; gap:10px; }
+  .ck{ width:20px; height:20px; border:1.5px solid #3a2d1a; border-radius:3px; display:inline-flex; align-items:center; justify-content:center; font-size:16px; font-weight:700; color:#0E0B08; flex-shrink:0; line-height:1; background:#fff; font-family:'Segoe UI Symbol','Apple Symbols',sans-serif; }
+  .ck.on{ border-color:#0E0B08; }
+  .f-line{ flex:1; border-bottom:1px solid #C9A96A; min-height:20px; font-weight:600; padding-left:4px; }
+  .f-bar{ font-family:'Playfair Display',serif; font-weight:800; font-size:24px; color:#0E0B08; border-bottom:2px solid #C6A15B; padding-bottom:6px; margin:6px 0 16px; letter-spacing:.02em; }
+  .f-empty{ text-align:center; color:#7a6850; font-style:italic; padding:26px 0; font-size:16px; }
+  .f-ready{ display:flex; justify-content:center; align-items:center; gap:18px; padding:4px 0 20px; }
+  .f-ready .big{ font-family:'Alex Brush',cursive; font-size:40px; color:#0E0B08; line-height:1; }
+  .f-ready .txt{ font-size:15px; color:#3a2d1a; max-width:300px; }
+  .f-foot{ background:#0E0B08; color:#F3EDE1; padding:22px 38px 16px; border-top:3px solid #C6A15B; }
+  .f-foot .rowc{ display:flex; justify-content:center; gap:44px; align-items:center; }
+  .f-foot small{ display:block; font-size:12px; color:#B9AE97; letter-spacing:.06em; }
+  .f-foot b{ color:#E7CE93; font-size:26px; font-weight:600; letter-spacing:.02em; }
+  .f-foot .loc{ font-size:17px; line-height:1.3; }
+  .f-foot .brandline{ text-align:center; margin-top:14px; font-size:12px; letter-spacing:.35em; color:#C6A15B; }
+</style>
 </head>
 <body data-theme="dark">
 
@@ -266,23 +339,68 @@
 </header>
 
 <main class="container">
-  <section class="page active" id="page-armar">
-    <div class="sec-head" style="margin-top:50px;">
-      <div class="eyebrow">¡Gracias por elegirnos!</div>
-      <h2>Arma tu paquete<br>para tu evento</h2>
-      <p class="lead">Selecciona una o varias barras y personaliza sus opciones. Al final, tu paquete se envía por WhatsApp para confirmar precio, fecha y disponibilidad.</p>
-    </div>
-    <div class="builder">
-      <div class="choice-list" id="choiceList"></div>
-      <div>
-        <div class="config-panel" id="configPanel">
-          <p class="empty-note">Selecciona al menos una barra para personalizarla aquí.</p>
-        </div>
-        <div class="summary-bar">
-          <div class="count"><b id="countN">0</b> barra(s) seleccionada(s)</div>
-          <a class="btn btn-gold" id="sendWa" target="_blank" rel="noopener">Enviar por WhatsApp ♡</a>
+  <section class="page active">
+    <div class="wrap-narrow">
+      <div class="sec-head" style="margin-top:44px; max-width:none;">
+        <div class="eyebrow">Ficha de personalización</div>
+        <h2>Configura tu barra</h2>
+        <p class="lead">Llena los datos de tu evento, elige tus toppings y genera tu hoja lista para descargar o enviar por WhatsApp.</p>
+      </div>
+
+      <div class="card">
+        <div class="step-n">PASO 1</div>
+        <h3>Datos del evento</h3>
+        <p class="sub">Esta información aparece en tu hoja.</p>
+        <div class="field-grid">
+          <div class="field full"><label>Nombre</label><input type="text" data-k="datos.nombre" autocomplete="name"></div>
+          <div class="field"><label>Fecha del evento</label><input type="date" data-k="datos.fecha"></div>
+          <div class="field"><label>Número de personas</label><input type="number" min="1" inputmode="numeric" data-k="datos.personas"></div>
+          <div class="field full"><label>Domicilio del evento</label><input type="text" data-k="datos.domicilio" autocomplete="street-address"></div>
+          <div class="field"><label>Inicio de la barra</label><input type="time" data-k="datos.ini"></div>
+          <div class="field"><label>Fin de la barra</label><input type="time" data-k="datos.fin"></div>
         </div>
       </div>
+
+      <div class="card">
+        <div class="step-n">PASO 2</div>
+        <h3>Elige tu barra</h3>
+        <p class="sub">Puedes elegir una o varias.</p>
+        <div class="choice-list two" id="choiceList"></div>
+      </div>
+
+      <div class="card">
+        <div class="step-n">PASO 3</div>
+        <h3>Personaliza</h3>
+        <p class="sub">Tú eliges, nosotros lo hacemos especial.</p>
+        <div id="cfg"></div>
+      </div>
+
+      <div class="card">
+        <div class="step-n">PASO 4 · OPCIONAL</div>
+        <h3>Pago</h3>
+        <p class="sub">Estos datos los confirma The Snack Experience. Los extras se suman solos.</p>
+        <div class="field-grid">
+          <div class="field"><label>Monto de la barra ($)</label><input type="number" min="0" inputmode="decimal" data-k="pago.monto"></div>
+          <div class="field"><label>Anticipo recibido ($)</label><input type="number" min="0" inputmode="decimal" data-k="pago.anticipo"></div>
+          <div class="field full"><label>Detalle del monto (opcional, ej. descuento aplicado)</label><input type="text" data-k="pago.nota"></div>
+        </div>
+        <div class="pay-info" id="payInfo"></div>
+      </div>
+
+      <div id="hoja" style="margin-top:34px;">
+        <div class="step-n">TU HOJA</div>
+        <h3 style="font-size:1.5rem; margin-bottom:6px;">Así se ve tu ficha</h3>
+        <p class="hoja-note">Se actualiza mientras llenas los datos.</p>
+        <div class="ficha-wrap" id="fichaWrap"><div class="ficha" id="ficha"></div></div>
+        <div class="actions">
+          <button class="btn btn-gold" id="btnPng">Descargar imagen</button>
+          <button class="btn btn-outline" id="btnPdf">Descargar PDF</button>
+          <a class="btn btn-outline" id="btnWa" target="_blank" rel="noopener">Enviar por WhatsApp ♡</a>
+          <button class="btn btn-outline" id="btnShare" style="display:none;">Compartir hoja</button>
+        </div>
+        <div id="msg"></div>
+      </div>
+      <div style="height:30px;"></div>
     </div>
   </section>
 </main>
@@ -294,180 +412,287 @@
   </div>
 </footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
-/* ---------------- Data ---------------- */
 const WA_NUMBER = "525544855867"; // 55 4485 5867
+const MXN = new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN',minimumFractionDigits:0,maximumFractionDigits:2});
+const money = n => MXN.format(n||0);
+const esc = s => String(s==null?'':s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const LOGO = document.querySelector('.logo-mini img').src;
 
 const BARRAS = [
-  {
-    id:"snacks", name:"Barra de Snacks", tag:"El antojo perfecto para tu evento",
+  { id:"snacks", name:"Barra de Snacks",
     fixed:["2 hrs de servicio","Montaje en carrito (sombrilla opcional)","Refil","Vasos, tenedores, servilletas y limones","Salsas: chamoy, Valentina, Botanera, Tajín, Miguelito y Maggie"],
-    choices:[
-      {label:"Papas a elegir (3)", max:3, options:["Ruffles original","Ruffles queso","Doritos Nacho","Tostitos","Chips fuego"]},
-      {label:"Verdura y fruta a elegir (2 verduras + 1 fruta)", max:3, options:["Zanahoria","Jícama","Pepino","Piña","Sandía","Mango"]},
-      {label:"Dulces a elegir (8)", max:8, options:["Gomitas dulces","Gomitas enchiladas","Cacahuates","Churritos","Paletas de caramelo","Chicles","Rockaleta","Duvalín"]}
-    ]
-  },
-  {
-    id:"esquites", name:"Barra de Esquites", tag:"El sabor que nunca falla en tu evento",
-    fixed:["2 hrs de servicio","Montaje en carrito (sombrilla opcional)","Refil","Mayonesa, queso tradicional, sal y limones","Vasos, cucharas y servilletas","Salsas: polvo picante, polvo no picante, salsa macha, búfalo, Valentina y Botanera","Extra: queso gouda (costo adicional)"],
-    choices:[
-      {label:"Toppings a elegir (3)", max:3, options:["Sabritas triturada","Barcel triturada","Cacahuates enchilados","Cacahuates salados","Cacahuates japoneses"]}
-    ]
-  },
-  {
-    id:"dorilocos", name:"Barra de Dorilocos", tag:"El antojo que enciende tu evento",
-    fixed:["2 hrs de servicio","Montaje en carrito (sombrilla opcional)","1 doriloco por invitado","Sal y limones · Tenedores y servilletas","Salsas: polvo picante, polvo no picante, salsa macha, búfalo, Valentina y Botanera"],
-    choices:[
-      {label:"Fritura base a elegir", max:1, options:["Sabritas individual","Barcel individual"]},
-      {label:"Verdura rallada a elegir (2)", max:2, options:["Zanahoria","Jícama","Pepino"]},
-      {label:"Toppings a elegir (5)", max:5, options:["Cueritos","Gomitas enchiladas","Gomitas dulces","Cacahuates enchilados","Cacahuates salados","Hot nuts","Banderilla de tamarindo"]}
-    ]
-  },
-  {
-    id:"doriesquites", name:"Barra de Doriesquites / Tostiesquites", tag:"La combinación perfecta para tu evento",
+    groups:[
+      {key:"papas", title:"PAPAS", max:3, other:true, options:["Ruffles original","Ruffles queso","Doritos Nacho","Tostitos","Chips fuego"]},
+      {key:"verdura", title:"VERDURAS", max:2, options:["Zanahoria","Jícama","Pepino"]},
+      {key:"fruta", title:"FRUTA", max:1, hint:"Fruta según temporada", options:["Piña","Sandía","Mango"]},
+      {key:"dulces", title:"DULCES", max:8, other:true, options:["Gomitas dulces","Gomitas enchiladas","Cacahuates","Churritos"]}
+    ], extras:[] },
+  { id:"esquites", name:"Barra de Esquites",
+    fixed:["2 hrs de servicio","Montaje en carrito (sombrilla opcional)","Refil durante el servicio","2 personas atendiendo","Mayonesa, queso tradicional, sal y limones","Vasos, cucharas y servilletas","Salsas: polvo picante, polvo no picante, salsa macha, búfalo, Valentina y Botanera"],
+    groups:[
+      {key:"toppings", title:"TOPPINGS", max:4, other:true, options:["Takis Fuego","Takis Original","Cheetos Torciditos","Cheetos Flamin' Hot","Doritos Nacho triturado","Cheetos Torciditos triturado","Cheetos Flamin' Hot triturado","Cacahuates enchilados","Cacahuates salados","Cacahuates japoneses"]}
+    ],
+    extras:[{key:"gouda", name:"Queso Gouda", price:150, unit:"kg"}] },
+  { id:"dorilocos", name:"Barra de Dorilocos",
+    fixed:["2 hrs de servicio","Montaje en carrito (sombrilla opcional)","1 doriloco por invitado","Sal y limones","Tenedores y servilletas","Salsas: polvo picante, polvo no picante, salsa macha, búfalo, Valentina y Botanera"],
+    groups:[
+      {key:"fritura", title:"FRITURA BASE", max:1, options:["Sabritas individual","Barcel individual"]},
+      {key:"verdura", title:"VERDURAS", max:2, options:["Zanahoria","Jícama","Pepino"]},
+      {key:"toppings", title:"TOPPINGS", max:5, other:true, options:["Cueritos","Gomitas enchiladas","Gomitas dulces","Cacahuates enchilados","Cacahuates salados","Hot nuts","Banderilla de tamarindo"]}
+    ], extras:[] },
+  { id:"doriesquites", name:"Barra de Doriesquites / Tostiesquites",
     fixed:["2 hrs de servicio","Montaje en carrito (sombrilla opcional)","1 doriesquite por invitado","Mayonesa, queso tradicional, sal y limones","Tenedores y servilletas","Salsas: polvo picante, polvo no picante, salsa macha, búfalo, Valentina y Botanera"],
-    choices:[
-      {label:"Fritura base a elegir", max:1, options:["Doritos individual","Tostitos individual"]},
-      {label:"Toppings a elegir (3)", max:3, options:["Sabritas triturada","Barcel triturada","Cacahuates enchilados","Cacahuates salados","Cacahuates japoneses"]}
-    ]
-  },
-  {
-    id:"maruchan", name:"Barra de Maruchan", tag:"El antojo que siempre es buena idea",
+    groups:[
+      {key:"fritura", title:"FRITURA BASE", max:1, options:["Doritos individual","Tostitos individual"]},
+      {key:"toppings", title:"TOPPINGS", max:3, other:true, options:["Sabritas triturada","Barcel triturada","Cacahuates enchilados","Cacahuates salados","Cacahuates japoneses"]}
+    ], extras:[] },
+  { id:"maruchan", name:"Barra de Maruchan",
     fixed:["2 hrs de servicio","Montaje en carrito (sombrilla opcional)","1 maruchan por invitado","Mayonesa, queso tradicional, sal y limones","Tenedores y servilletas","Salsas: polvo picante, polvo no picante, salsa macha, búfalo, Valentina y Botanera"],
-    choices:[
-      {label:"Toppings a elegir (3)", max:3, options:["Sabritas o Barcel","Cacahuates enchilados","Cacahuates salados","Cacahuates japoneses"]}
-    ]
-  },
-  {
-    id:"chilaquiles", name:"Barra de Chilaquiles", tag:"Sabor tradicional para tus momentos especiales",
-    fixed:["2 hrs de servicio","Montaje en carrito (sombrilla opcional)","Refil","Pollo desmenuzado, crema, queso tradicional, cilantro, cebolla, bolillo","Tenedores y servilletas","Salsas: verde y roja"],
-    choices:[]
-  },
-  {
-    id:"hotcakes", name:"Barra de Mini Hotcakes / Mini Donas", tag:"Un toque dulce para momentos inolvidables",
-    fixed:["2 hrs de servicio","Montaje en carrito (sombrilla opcional)","Refil","Plato, tenedores y servilletas","Aderezos: lechera, cajeta, Nutella, mermelada de fresa"],
-    choices:[
-      {label:"Base a elegir", max:1, options:["Mini hotcakes","Mini donas","Combinado"]},
-      {label:"Fruta a elegir (2)", max:2, options:["Fresa","Plátano","Uva","Duraznos"]},
-      {label:"Toppings a elegir (5)", max:5, options:["M&M's","Chocoretas","Nuez picada","Pasas","Oreo triturada","Chispas de chocolate","Coco rallado","Mini malvaviscos","Cacahuate picado"]}
-    ]
-  },
-  {
-    id:"fresas", name:"Barra de Fresas / Uvas / Duraznos con Crema", tag:"Un toque dulce para momentos inolvidables",
-    fixed:["2 hrs de servicio","Montaje en carrito (sombrilla opcional)","Refil","Vasos, cucharas y servilletas","Aderezos: lechera, cajeta, chocolate"],
-    choices:[
-      {label:"Base a elegir", max:1, options:["Fresas","Uvas","Duraznos","Combinado"]},
-      {label:"Toppings a elegir (5)", max:5, options:["M&M's","Chocoretas","Nuez picada","Pasas","Oreo triturada","Chispas de chocolate","Coco rallado","Mini malvaviscos","Luneta de yoghurt","Cacahuate picado","Galleta triturada","Galleta entera"]}
-    ]
-  }
+    groups:[
+      {key:"toppings", title:"TOPPINGS", max:3, other:true, options:["Sabritas triturada","Barcel triturada","Cacahuates enchilados","Cacahuates salados","Cacahuates japoneses"]}
+    ], extras:[] },
+  { id:"chilaquiles", name:"Barra de Chilaquiles",
+    fixed:["2 hrs de servicio","Montaje en carrito (sombrilla opcional)","Refil","Pollo desmenuzado, crema, queso tradicional, cilantro, cebolla y bolillo","Tenedores y servilletas","Salsas: verde y roja"],
+    groups:[], extras:[] },
+  { id:"hotcakes", name:"Barra de Mini Hotcakes / Mini Donas",
+    fixed:["2 hrs de servicio","Montaje en carrito (sombrilla opcional)","Refil","Plato, tenedores y servilletas","Aderezos: lechera, cajeta, Nutella y mermelada de fresa"],
+    groups:[
+      {key:"base", title:"BASE", max:1, options:["Mini hotcakes","Mini donas","Combinado"]},
+      {key:"fruta", title:"FRUTA", max:2, options:["Fresa","Plátano","Uva","Duraznos"]},
+      {key:"toppings", title:"TOPPINGS", max:5, other:true, options:["M&M's","Chocoretas","Nuez picada","Pasas","Oreo triturada","Chispas de chocolate","Coco rallado","Mini malvaviscos","Luneta de yoghurt","Cacahuate picado"]}
+    ], extras:[] },
+  { id:"fresas", name:"Barra de Fresas / Uvas / Duraznos con Crema",
+    fixed:["2 hrs de servicio","Montaje en carrito (sombrilla opcional)","Refil","Vasos, cucharas y servilletas","Aderezos: lechera, cajeta y chocolate"],
+    groups:[
+      {key:"base", title:"BASE", max:1, options:["Fresas","Uvas","Duraznos","Combinado"]},
+      {key:"toppings", title:"TOPPINGS", max:5, other:true, options:["M&M's","Chocoretas","Nuez picada","Pasas","Oreo triturada","Chispas de chocolate","Coco rallado","Mini malvaviscos","Luneta de yoghurt","Cacahuate picado","Galleta triturada","Galleta entera"]}
+    ], extras:[] }
 ];
+const BAR = id => BARRAS.find(b=>b.id===id);
 
-/* ---------------- WA links ---------------- */
-function waLink(text){ return "https://wa.me/"+WA_NUMBER+(text?("?text="+encodeURIComponent(text)):""); }
-["navWa","footWa"].forEach(id=>{
-  const el = document.getElementById(id);
-  el.href = waLink("Hola, tengo una duda sobre mi paquete con The Snack Experience ✨");
-});
+const state = {
+  datos:{nombre:'',fecha:'',domicilio:'',ini:'',fin:'',personas:''},
+  barras:{},
+  pago:{monto:'',anticipo:'',nota:''}
+};
 
-/* ---------------- Builder ---------------- */
-const selected = {}; // id -> {choiceIndex: [selectedOptions]}
-const choiceList = document.getElementById("choiceList");
-const configPanel = document.getElementById("configPanel");
-const countN = document.getElementById("countN");
-const sendWa = document.getElementById("sendWa");
+/* ---------- helpers ---------- */
+function fmtDate(v){ if(!v) return ''; const [y,m,d]=v.split('-').map(Number); return new Date(y,m-1,d).toLocaleDateString('es-MX',{day:'numeric',month:'long',year:'numeric'}); }
+function fmtTime(v){ if(!v) return ''; let [h,m]=v.split(':').map(Number); const ap=h>=12?'pm':'am'; h=h%12||12; return h+':'+String(m).padStart(2,'0')+' '+ap; }
+function horario(){ const a=fmtTime(state.datos.ini), b=fmtTime(state.datos.fin); if(a&&b) return 'De '+a+' a '+b; if(a) return 'Desde '+a; if(b) return 'Hasta '+b; return ''; }
+function selectedBarras(){ return BARRAS.filter(b=>state.barras[b.id]); }
+function calc(){
+  let extras=0;
+  selectedBarras().forEach(b=>b.extras.forEach(x=>{ const e=state.barras[b.id].extra[x.key]; if(e.on) extras+=x.price*(e.qty||0); }));
+  const monto=parseFloat(state.pago.monto)||0, ant=parseFloat(state.pago.anticipo)||0, total=monto+extras;
+  return {extras,monto,ant,total,rest:total-ant};
+}
+function selNames(b,g){
+  const st=state.barras[b.id]; const out=[];
+  st.sel[g.key].forEach(v=>{ if(v==='o'){ if((st.other[g.key]||'').trim()) out.push(st.other[g.key].trim()); } else out.push(g.options[v]); });
+  return out;
+}
+const qtyTxt = (q,u) => String(q||0)+' '+u;
 
+/* ---------- step 2: elegir barras ---------- */
+const choiceList = document.getElementById('choiceList');
 BARRAS.forEach(b=>{
-  const row = document.createElement("label");
-  row.className = "choice";
-  row.id = "choice-"+b.id;
-  row.innerHTML = `
-    <input type="checkbox" data-id="${b.id}">
-    <div>
-      <div class="name">${b.name}</div>
-      <div class="desc">${b.tag}</div>
-    </div>
-  `;
+  const row=document.createElement('label'); row.className='choice';
+  row.innerHTML='<input type="checkbox" data-id="'+b.id+'"><div><div class="name">'+esc(b.name)+'</div></div>';
   choiceList.appendChild(row);
-  row.querySelector("input").addEventListener("change", (e)=>{
+  row.querySelector('input').addEventListener('change',e=>{
     if(e.target.checked){
-      selected[b.id] = b.choices.map(()=>[]);
-      row.classList.add("checked");
-    } else {
-      delete selected[b.id];
-      row.classList.remove("checked");
-    }
-    renderConfig();
+      const st={sel:{},other:{},extra:{}};
+      b.groups.forEach(g=>{ st.sel[g.key]=[]; st.other[g.key]=''; });
+      b.extras.forEach(x=>{ st.extra[x.key]={on:false,qty:1}; });
+      state.barras[b.id]=st; row.classList.add('checked');
+    } else { delete state.barras[b.id]; row.classList.remove('checked'); }
+    renderCfg(); renderPay(); renderFicha();
   });
 });
 
-function renderConfig(){
-  const ids = Object.keys(selected);
-  countN.textContent = ids.length;
-  if(ids.length===0){
-    configPanel.innerHTML = `<p class="empty-note">Selecciona al menos una barra para personalizarla aquí.</p>`;
-    sendWa.href = waLink("Hola, quiero armar mi paquete con The Snack Experience ✨");
-    return;
+/* ---------- step 3: personalizar ---------- */
+function renderCfg(){
+  const box=document.getElementById('cfg'); const list=selectedBarras();
+  if(!list.length){ box.innerHTML='<p class="empty-note">Elige al menos una barra en el paso 2 para personalizarla aquí.</p>'; return; }
+  box.innerHTML=list.map(b=>{
+    const st=state.barras[b.id];
+    let h='<div class="config-block"><h4>'+esc(b.name)+'</h4>';
+    if(!b.groups.length && !b.extras.length) h+='<div class="hint">Esta barra no requiere personalización: todo está incluido.</div>';
+    b.groups.forEach(g=>{
+      const arr=st.sel[g.key];
+      h+='<div class="hint" style="margin-top:12px">'+(g.max===1?'Elige 1':'Elige hasta '+g.max)+' · '+esc(g.title.toLowerCase())+(g.hint?' ('+esc(g.hint)+')':'')+'</div><div class="pill-group">';
+      g.options.forEach((o,i)=>{ h+='<div class="pill'+(arr.includes(i)?' on':'')+'" data-b="'+b.id+'" data-g="'+g.key+'" data-i="'+i+'">'+esc(o)+'</div>'; });
+      if(g.other) h+='<div class="pill'+(arr.includes('o')?' on':'')+'" data-b="'+b.id+'" data-g="'+g.key+'" data-i="o">Otro</div>';
+      h+='</div>';
+      if(g.other && arr.includes('o')) h+='<input class="other-in" data-b="'+b.id+'" data-g="'+g.key+'" placeholder="Escribe tu opción" value="'+esc(st.other[g.key])+'">';
+    });
+    b.extras.forEach(x=>{
+      const e=st.extra[x.key];
+      h+='<div class="hint" style="margin-top:14px">Extra opcional (costo adicional)</div><div class="pill-group"><div class="pill'+(e.on?' on':'')+'" data-b="'+b.id+'" data-x="'+x.key+'">'+esc(x.name)+' · '+money(x.price)+'/'+x.unit+'</div></div>';
+      if(e.on) h+='<div class="qty-row"><label>Cantidad ('+x.unit+')</label><input type="number" min="0.5" step="0.5" class="qty-in" data-b="'+b.id+'" data-x="'+x.key+'" value="'+e.qty+'"></div>';
+    });
+    return h+'</div>';
+  }).join('');
+}
+document.getElementById('cfg').addEventListener('click',e=>{
+  const p=e.target.closest('.pill'); if(!p) return;
+  const b=BAR(p.dataset.b), st=state.barras[p.dataset.b];
+  if(p.dataset.x){ const ex=st.extra[p.dataset.x]; ex.on=!ex.on; }
+  else {
+    const g=b.groups.find(x=>x.key===p.dataset.g), arr=st.sel[g.key];
+    const v=p.dataset.i==='o'?'o':+p.dataset.i, ix=arr.indexOf(v);
+    if(ix>-1) arr.splice(ix,1); else { if(arr.length>=g.max) arr.shift(); arr.push(v); }
   }
-  configPanel.innerHTML = "";
-  ids.forEach(id=>{
-    const b = BARRAS.find(x=>x.id===id);
-    const block = document.createElement("div");
-    block.className = "config-block";
-    let inner = `<h4>${b.name}</h4>`;
-    if(b.choices.length===0){
-      inner += `<div class="hint">Esta barra no requiere personalización, solo confírmala al cotizar.</div>`;
+  renderCfg(); renderPay(); renderFicha();
+});
+document.getElementById('cfg').addEventListener('input',e=>{
+  const t=e.target, st=state.barras[t.dataset.b]; if(!st) return;
+  if(t.classList.contains('other-in')) st.other[t.dataset.g]=t.value;
+  if(t.classList.contains('qty-in')) st.extra[t.dataset.x].qty=parseFloat(t.value)||0;
+  renderPay(); renderFicha();
+});
+
+/* ---------- campos generales ---------- */
+document.querySelectorAll('[data-k]').forEach(inp=>{
+  inp.addEventListener('input',()=>{ const [g,k]=inp.dataset.k.split('.'); state[g][k]=inp.value; renderPay(); renderFicha(); });
+});
+
+/* ---------- paso 4: pago ---------- */
+function renderPay(){
+  const c=calc(), el=document.getElementById('payInfo');
+  if(!c.total && !c.ant){ el.innerHTML='Aquí verás el total y el restante.'; return; }
+  el.innerHTML='Extras: <b>'+money(c.extras)+'</b><br>Monto total: <b>'+money(c.total)+'</b><br>Restante el día del evento: <b>'+money(c.rest)+'</b>';
+}
+
+/* ---------- la hoja ---------- */
+function optGrid(b,g){
+  const st=state.barras[b.id], arr=st.sel[g.key];
+  const items=g.options.map((o,i)=>{ const on=arr.includes(i); return '<div class="f-opt"><span class="ck">'+(on?'✓':'')+'</span><span>'+esc(o)+'</span></div>'; });
+  if(g.other){ const on=arr.includes('o'); items.push('<div class="f-opt"><span class="ck">'+(on?'✓':'')+'</span><span>Otro:</span><span class="f-line">'+esc(on?st.other[g.key]:'')+'</span></div>'); }
+  return '<div class="f-grid">'+items.join('')+'</div>';
+}
+function renderFicha(){
+  const list=selectedBarras(), d=state.datos, c=calc();
+  let l1='BARRAS PARA', l2='TU EVENTO';
+  if(list.length===1){ l1='BARRA DE'; l2=list[0].name.replace(/^Barra de /,'').toUpperCase(); }
+  const row=(lab,html)=>'<div class="f-row"><span class="f-lab">'+lab+'</span><span class="f-val">'+html+'</span></div>';
+  let monto='';
+  if(c.total>0){
+    const nota=(state.pago.nota||'').trim();
+    if(c.monto>0 && c.extras>0) monto=money(c.monto)+(nota?' ('+esc(nota)+')':'')+' + '+money(c.extras)+' (extras) = '+money(c.total);
+    else monto=money(c.total)+(nota?' ('+esc(nota)+')':'');
+  }
+  let h='<div class="f-top"><img class="f-logo" src="'+LOGO+'" alt="">'+
+    '<div class="f-ttl"><div class="f-l1">'+esc(l1)+'</div><div class="f-l2'+(l2.length>16?' long':'')+'">'+esc(l2)+'</div>'+
+    '<div class="f-sub">Ficha de personalización</div><div class="f-tag">TÚ ELIGES, NOSOTROS LO HACEMOS ESPECIAL</div></div></div>';
+  h+='<div class="f-body">';
+  h+='<div class="f-sec"><div class="f-head"><span class="f-pill">DATOS DEL EVENTO</span></div><div class="f-box">'+
+    row('Nombre:',esc(d.nombre))+row('Fecha del evento:',esc(fmtDate(d.fecha)))+row('Domicilio del evento:',esc(d.domicilio))+
+    row('Horario de la barra:',esc(horario()))+row('Número de personas contratado:',d.personas?esc(d.personas)+' personas':'')+
+    row('Monto total:',monto)+row('Anticipo recibido:',c.ant?money(c.ant):'')+row('Monto restante a pagar el día del evento:',c.total?money(c.rest):'')+
+    '</div></div>';
+  if(!list.length) h+='<div class="f-empty">Elige una barra para ver aquí lo que incluye y tus selecciones.</div>';
+  list.forEach(b=>{
+    const st=state.barras[b.id];
+    if(list.length>1) h+='<div class="f-bar">'+esc(b.name.toUpperCase())+'</div>';
+    h+='<div class="f-sec"><div class="f-head"><span class="f-pill">TU BARRA INCLUYE</span></div><div class="f-box"><ul class="f-inc">'+b.fixed.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul></div></div>';
+    b.groups.forEach(g=>{
+      const hint=g.hint||(g.max===1?'Selecciona 1':'Selecciona tus favoritos (máximo '+g.max+')');
+      h+='<div class="f-sec"><div class="f-head"><span class="f-pill">ELIGE <b>'+g.max+'</b> '+esc(g.title)+'</span><span class="f-hint">'+esc(hint)+'</span></div><div class="f-box">'+optGrid(b,g)+'</div></div>';
+    });
+    if(b.extras.length){
+      h+='<div class="f-sec"><div class="f-head"><span class="f-pill">EXTRA OPCIONAL</span><span class="f-hint">Dale un toque aún más especial</span></div><div class="f-box">'+
+        b.extras.map(x=>{ const e=st.extra[x.key]; return '<div class="f-row" style="align-items:center;"><span class="ck">'+(e.on?'✓':'')+'</span><span class="f-lab">'+esc(x.name)+' '+money(x.price)+'/'+x.unit+'</span><span style="flex:1"></span><span class="f-lab">Cantidad:</span><span class="f-val" style="flex:0 0 130px;">'+(e.on?esc(qtyTxt(e.qty,x.unit)):'')+'</span></div>'; }).join('')+
+        '</div></div>';
     }
-    b.choices.forEach((c,ci)=>{
-      inner += `<div class="hint">${c.label}</div><div class="pill-group" data-bid="${id}" data-ci="${ci}">`;
-      c.options.forEach(opt=>{
-        inner += `<div class="pill" data-opt="${opt}">${opt}</div>`;
-      });
-      inner += `</div>`;
-    });
-    block.innerHTML = inner;
-    configPanel.appendChild(block);
   });
-
-  configPanel.querySelectorAll(".pill").forEach(p=>{
-    p.addEventListener("click", ()=>{
-      const group = p.parentElement;
-      const bid = group.dataset.bid, ci = +group.dataset.ci;
-      const b = BARRAS.find(x=>x.id===bid);
-      const conf = b.choices[ci];
-      const arr = selected[bid][ci];
-      const opt = p.dataset.opt;
-      const idx = arr.indexOf(opt);
-      if(idx>-1){
-        arr.splice(idx,1); p.classList.remove("on");
-      } else {
-        if(arr.length >= conf.max){
-          const removed = arr.shift();
-          group.querySelector(`.pill[data-opt="${removed}"]`)?.classList.remove("on");
-        }
-        arr.push(opt); p.classList.add("on");
-      }
-      updateSendLink();
-    });
-  });
-  updateSendLink();
+  h+='<div class="f-ready"><span class="big">¿Listo?</span><span class="txt">Nosotros nos encargamos de preparar todo para tu evento.</span></div></div>';
+  h+='<div class="f-foot"><div class="rowc"><div><small>Contacto</small><b>55 4485 5867</b></div><div class="loc">CDMX y<br>Área Metropolitana</div></div><div class="brandline">THE SNACK EXPERIENCE</div></div>';
+  document.getElementById('ficha').innerHTML=h;
+  fitFicha();
 }
-
-function updateSendLink(){
-  let msg = "Hola, quiero armar el siguiente paquete con The Snack Experience ✨\n\n";
-  Object.keys(selected).forEach(id=>{
-    const b = BARRAS.find(x=>x.id===id);
-    msg += `• ${b.name}\n`;
-    b.choices.forEach((c,ci)=>{
-      const arr = selected[id][ci];
-      if(arr.length){ msg += `   - ${c.label.split(" a elegir")[0]}: ${arr.join(", ")}\n`; }
-    });
-  });
-  msg += "\n¿Me pueden confirmar precio y disponibilidad?";
-  sendWa.href = waLink(msg);
+function fitFicha(){
+  const wrap=document.getElementById('fichaWrap'), f=document.getElementById('ficha');
+  const s=Math.min(1, wrap.clientWidth/820); f.style.transform='scale('+s+')'; wrap.style.height=(f.offsetHeight*s)+'px';
 }
+window.addEventListener('resize',fitFicha);
+if(document.fonts&&document.fonts.ready) document.fonts.ready.then(fitFicha);
 
-renderConfig();
+/* ---------- exportar ---------- */
+const msg=t=>{ document.getElementById('msg').textContent=t||''; };
+function fileBase(){ const n=(state.datos.nombre||'').trim().replace(/[^\p{L}\p{N}]+/gu,'-').replace(/^-|-$/g,''); return 'Ficha-The-Snack-Experience'+(n?'-'+n:''); }
+async function makeCanvas(){
+  await (document.fonts&&document.fonts.ready);
+  const holder=document.createElement('div'); holder.style.cssText='position:fixed;left:-10000px;top:0;width:820px;';
+  const clone=document.getElementById('ficha').cloneNode(true); clone.style.transform='none'; clone.removeAttribute('id');
+  holder.appendChild(clone); document.body.appendChild(holder);
+  try{
+    const h=clone.offsetHeight;
+    return await html2canvas(clone,{scale:h>3000?1.5:2,backgroundColor:'#FBF1E3',useCORS:true,windowWidth:820,scrollX:0,scrollY:0});
+  } finally { holder.remove(); }
+}
+async function saveFile(name,blob){
+  try{
+    if(window.claude && window.claude.use){
+      const dl=await window.claude.use('downloads');
+      if(dl){ await dl.save({filename:name,data:blob}); return; }
+    }
+  }catch(e){ if(e && e.code==='declined') return; }
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+}
+function needBarra(){ if(!selectedBarras().length){ msg('Elige al menos una barra para generar tu hoja.'); return true; } return false; }
+async function toPng(){ const cv=await makeCanvas(); return await new Promise(r=>cv.toBlob(r,'image/png')); }
+
+document.getElementById('btnPng').addEventListener('click',async()=>{
+  if(needBarra()) return; msg('Generando imagen…');
+  try{ const blob=await toPng(); await saveFile(fileBase()+'.png',blob); msg('Listo ✓'); }catch(e){ msg('No se pudo generar la imagen. Intenta de nuevo.'); }
+});
+document.getElementById('btnPdf').addEventListener('click',async()=>{
+  if(needBarra()) return; msg('Generando PDF…');
+  try{
+    const cv=await makeCanvas(); const w=820, h=Math.round(cv.height*(820/cv.width));
+    const pdf=new window.jspdf.jsPDF({orientation:'p',unit:'px',format:[w,h],hotfixes:['px_scaling']});
+    pdf.addImage(cv.toDataURL('image/jpeg',0.92),'JPEG',0,0,w,h);
+    await saveFile(fileBase()+'.pdf',pdf.output('blob')); msg('Listo ✓');
+  }catch(e){ msg('No se pudo generar el PDF. Intenta de nuevo.'); }
+});
+
+function waText(){
+  const d=state.datos, c=calc(); let t='Hola, esta es mi hoja de personalización con The Snack Experience ✨\n\n';
+  if(d.nombre) t+='Nombre: '+d.nombre+'\n';
+  if(d.fecha) t+='Fecha: '+fmtDate(d.fecha)+'\n';
+  if(d.domicilio) t+='Domicilio: '+d.domicilio+'\n';
+  if(horario()) t+='Horario: '+horario()+'\n';
+  if(d.personas) t+='Personas: '+d.personas+'\n';
+  selectedBarras().forEach(b=>{
+    const st=state.barras[b.id]; t+='\n• '+b.name+'\n';
+    b.groups.forEach(g=>{ const n=selNames(b,g); if(n.length) t+='   - '+g.title.charAt(0)+g.title.slice(1).toLowerCase()+': '+n.join(', ')+'\n'; });
+    b.extras.forEach(x=>{ const e=st.extra[x.key]; if(e.on) t+='   - Extra: '+x.name+' ('+qtyTxt(e.qty,x.unit)+')\n'; });
+  });
+  if(c.total>0){ t+='\nMonto total: '+money(c.total)+'\n'; if(c.ant) t+='Anticipo: '+money(c.ant)+'\nRestante: '+money(c.rest)+'\n'; }
+  return t+'\nTe comparto también mi hoja en imagen.';
+}
+document.getElementById('btnWa').addEventListener('click',e=>{
+  if(needBarra()){ e.preventDefault(); return; }
+  e.currentTarget.href='https://wa.me/'+WA_NUMBER+'?text='+encodeURIComponent(waText());
+});
+
+const btnShare=document.getElementById('btnShare');
+try{ const tf=new File([new Blob(['x'])],'a.png',{type:'image/png'}); if(navigator.canShare&&navigator.canShare({files:[tf]})) btnShare.style.display=''; }catch(e){}
+btnShare.addEventListener('click',async()=>{
+  if(needBarra()) return; msg('Preparando…');
+  try{ const blob=await toPng(); await navigator.share({files:[new File([blob],fileBase()+'.png',{type:'image/png'})],title:'Mi hoja — The Snack Experience'}); msg(''); }
+  catch(e){ msg(e&&e.name==='AbortError'?'':'No se pudo compartir. Usa "Descargar imagen".'); }
+});
+
+["navWa","footWa"].forEach(id=>{ document.getElementById(id).href='https://wa.me/'+WA_NUMBER+'?text='+encodeURIComponent('Hola, tengo una duda sobre mi barra con The Snack Experience ✨'); });
+
+renderCfg(); renderPay(); renderFicha();
 </script>
 </body>
 </html>
